@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title></title>
+        <link rel="stylesheet" href="./css/style.css" />
+    </head>
+    <body>
+        <section>
+            <h1>Book Administration with Vanilla JS</h1>
+            <div data-container="books-table"></div>
+        </section>
+        <script src="./js/application.js"></script>
+        <script>
+            const books = [
+                new BookModel({
+                    id: 1,
+                    title: 'Angular Reboot 3',
+                    isbn: '3311-000112-5544',
+                    author: new AuthorModel({ name: 'Steven Syntax' }),
+                }),
+                new BookModel({
+                    id: 2,
+                    title: 'Horror stories with React',
+                    isbn: '1111-000112-7777',
+                    author: new AuthorModel({ name: 'Alfred Angular' }),
+                }),
+                new BookModel({
+                    id: 3,
+                    title: 'The Angular Fiasco',
+                    isbn: '3311-000112-0000',
+                    author: new AuthorModel({ name: 'Robot React' }),
+                }),
+                new BookModel({
+                    id: 4,
+                    title: 'The Vue Skyfalll',
+                    isbn: '3311-000112-2222',
+                    author: new AuthorModel({ name: 'Vanessa Vanilla' }),
+                }),
+            ];
+
+            const bookTables = document.querySelectorAll(
+                '[data-container="books-table"]',
+            );
+
+            for (let i = 0; i < bookTables.length; i++) {
+                new BookTableComponent({
+                    containerElement: bookTables[i],
+                    books,
+                });
+            }
+        </script>
+    </body>
+</html>
