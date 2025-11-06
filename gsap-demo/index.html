@@ -1,0 +1,45 @@
+<html lang="en">
+    <style>
+        section {
+            height: 300px;
+        }
+    </style>
+    <section>
+        <h1>111</h1>
+    </section>
+    <section>
+        <h1>222</h1>
+    </section>
+    <section>
+        <h1>333</h1>
+    </section>
+
+    <body>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.12/dist/gsap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+        <script>
+            const sections = document.querySelectorAll('section') // 获取页面中所有的<section>元素
+
+            gsap.registerPlugin(ScrollTrigger) // gsap注册插件ScrollTrigger
+
+            sections.forEach((se) => {
+                // 从初始到目标的动画
+                gsap.fromTo(
+                    se,
+                    {
+                        backgroundPositionY: `-${window.innerHeight / 2}px`, // 向上偏移（初始背景垂直位置为视口高度一般的负值）
+                    },
+                    {
+                        backgroundPositionY: `${window.innerHeight / 2}px`, // 向下偏移（视口高度的一般的正值）
+                        duration: 3, // 动画持续3s
+                        ease: 'none', // 线性曲线
+                        scrollTrigger: {
+                            trigger: se, // 触发的是当前的section
+                            scrub: true, // 按滚动条去做这个视觉效果
+                        },
+                    },
+                )
+            })
+        </script>
+    </body>
+</html>
