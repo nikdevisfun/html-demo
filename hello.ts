@@ -1,14 +1,14 @@
 interface User {
-    name: string;
-    age: number;
+    name: string
+    age: number
 }
 
 function hello(params: User) {
-    console.log(params.name);
+    console.log(params.name)
 }
 
 interface Person {
-    name: string;
-    age: number;
-    is_work: boolean;
+    name: string
+    age: number
+    is_work: boolean
 }

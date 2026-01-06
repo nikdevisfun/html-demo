@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title></title>
+        <link href="css/style.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div id="container"></div>
+        <script src="https://unpkg.com/@antv/infographic@latest/dist/infographic.min.js"></script>
+        <script>
+            const { Infographic } = AntVInfographic
+            const infographic = new Infographic({
+                container: '#container',
+                width: '100%',
+                height: '100%',
+            })
+
+            const syntax = `
+        infographic list-row-simple-horizontal-arrow
+        data
+          items
+            - label Step 1
+              desc Start
+            - label Step 2
+              desc In Progress
+            - label Step 3
+              desc Complete
+        `
+
+            infographic.render(syntax)
+        </script>
+    </body>
+</html>
