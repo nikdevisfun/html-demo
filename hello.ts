@@ -1,3 +1,11 @@
+// TODO: rewrite this logic
+//
+// FIX: edge case for null
+//
+// HACK: temporary workaround
+//
+// NOTE: refactor later
+
 interface User {
     name: string
     age: number
@@ -12,3 +20,6 @@ interface Person {
     age: number
     is_work: boolean
 }
+
+hello({ name: 'Nik', age: 34 })
+hello({ name: 'Nik', age: 33 })
