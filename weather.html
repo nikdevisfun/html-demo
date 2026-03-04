@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上海天气看板</title>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --accent: #3b82f6;
+            --shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.2);
+            --radius: 24px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: var(--text-primary);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: grid;
+            gap: 24px;
+        }
+
+        .weather-dashboard {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 32px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.25);
+        }
+
+        /* 当前天气主卡片 */
+        .current-weather {
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .city-name {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .weather-icon-main {
+            font-size: 120px;
+            color: var(--accent);
+            margin: 24px 0;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .temperature {
+            font-size: 80px;
+            font-weight: 200;
+            line-height: 1;
+            margin: 16px 0;
+            background: linear-gradient(135deg, #1f2937 0%, #4b5563 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .temperature sup {
+            font-size: 36px;
+            font-weight: 400;
+            -webkit-text-fill-color: var(--text-secondary);
+        }
+
+        .weather-desc {
+            font-size: 24px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .date-time {
+            font-size: 14px;
+            color: var(--text-secondary);
+            opacity: 0.8;
+            margin-top: 8px;
+        }
+
+        /* 详情网格 */
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px;
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .detail-item:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .detail-icon {
+            font-size: 28px;
+            color: var(--accent);
+        }
+
+        .detail-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 4px;
+        }
+
+        /* 预报列表 */
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .forecast-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .forecast-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: rgba(59, 130, 246, 0.03);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .forecast-item:hover {
+            background: rgba(59, 130, 246, 0.08);
+            transform: translateX(4px);
+        }
+
+        .forecast-day {
+            font-weight: 600;
+            width: 60px;
+            color: var(--text-primary);
+            font-size: 16px;
+        }
+
+        .forecast-icon {
+            font-size: 32px;
+            color: var(--accent);
+            flex: 1;
+            text-align: center;
+        }
+
+        .forecast-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            flex: 1;
+            text-align: center;
+        }
+
+        .forecast-temp {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .temp-high {
+            color: var(--text-primary);
+        }
+
+        .temp-low {
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+
+        /* 横屏布局 */
+        @media (min-width: 768px) and (orientation: landscape) {
+            .weather-dashboard {
+                grid-template-columns: 1.2fr 1fr;
+                grid-template-rows: auto auto;
+            }
+
+            .current-weather {
+                grid-row: span 2;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                min-height: 500px;
+            }
+
+            .temperature {
+                font-size: 96px;
+            }
+
+            .weather-icon-main {
+                font-size: 140px;
+            }
+
+            .forecast-list {
+                max-height: 400px;
+                overflow-y: auto;
+                scrollbar-width: thin;
+                scrollbar-color: var(--accent) transparent;
+            }
+
+            .forecast-list::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .forecast-list::-webkit-scrollbar-thumb {
+                background-color: var(--accent);
+                border-radius: 3px;
+            }
+        }
+
+        /* 超宽横屏 */
+        @media (min-width: 1024px) and (orientation: landscape) {
+            .weather-dashboard {
+                grid-template-columns: 1.2fr 1fr 1fr;
+            }
+
+            .current-weather {
+                grid-row: span 1;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+
+        /* 小屏手机优化 */
+        @media (max-width: 380px) {
+            .card {
+                padding: 24px;
+            }
+
+            .city-name {
+                font-size: 28px;
+            }
+
+            .temperature {
+                font-size: 64px;
+            }
+
+            .temperature sup {
+                font-size: 28px;
+            }
+
+            .weather-icon-main {
+                font-size: 100px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .forecast-desc {
+                display: none;
+            }
+        }
+
+        /* 深色模式 */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-gradient: linear-gradient(135deg, #1e3a8a 0%, #581c87 100%);
+                --card-bg: rgba(17, 24, 39, 0.95);
+                --text-primary: #f9fafb;
+                --text-secondary: #9ca3af;
+                --accent: #60a5fa;
+                --shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+            }
+
+            .detail-item {
+                background: rgba(96, 165, 250, 0.1);
+            }
+
+            .forecast-item {
+                background: rgba(96, 165, 250, 0.05);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="weather-dashboard">
+            <!-- 当前天气 -->
+            <div class="card current-weather fade-in">
+                <h1 class="city-name">上海</h1>
+                <div class="date-time" id="dateTime">2024年1月31日 星期三</div>
+                
+                <i class="ph-fill ph-cloud-sun weather-icon-main"></i>
+                
+                <div class="temperature">22<sup>°C</sup></div>
+                
+                <div class="weather-desc">多云转阴</div>
+                <div style="margin-top: 16px; color: var(--text-secondary); font-size: 14px;">
+                    <i class="ph ph-map-pin" style="vertical-align: middle; margin-right: 4px;"></i>
+                    上海市黄浦区
+                </div>
+            </div>
+
+            <!-- 天气详情 -->
+            <div class="card fade-in" style="animation-delay: 0.1s">
+                <h3 class="section-title">
+                    <i class="ph ph-info"></i>
+                    今日详情
+                </h3>
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <i class="ph ph-drop detail-icon"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">湿度</span>
+                            <span class="detail-value">68%</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="ph ph-wind detail-icon"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">风速</span>
+                            <span class="detail-value">18 km/h</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="ph ph-gauge detail-icon"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">气压</span>
+                            <span class="detail-value">1010 hPa</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="ph ph-sun-dim detail-icon"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">紫外线</span>
+                            <span class="detail-value">中等</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="ph ph-eye detail-icon"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">能见度</span>
+                            <span class="detail-value">12 km</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="ph ph-thermometer detail-icon"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">体感温度</span>
+                            <span class="detail-value">24°C</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 未来预报 -->
+            <div class="card fade-in" style="animation-delay: 0.2s">
+                <div class="section-title">
+                    <i class="ph ph-calendar-blank"></i>
+                    未来5天预报
+                </div>
+                <div class="forecast-list">
+                    <div class="forecast-item">
+                        <span class="forecast-day">明天</span>
+                        <i class="ph-fill ph-cloud-rain forecast-icon"></i>
+                        <span class="forecast-desc">小雨</span>
+                        <div class="forecast-temp">
+                            <span class="temp-high">20°</span>
+                            <span class="temp-low">17°</span>
+                        </div>
+                    </div>
+                    <div class="forecast-item">
+                        <span class="forecast-day">周五</span>
+                        <i class="ph-fill ph-cloud-rain forecast-icon"></i>
+                        <span class="forecast-desc">中雨</span>
+                        <div class="forecast-temp">
+                            <span class="temp-high">19°</span>
+                            <span class="temp-low">16°</span>
+                        </div>
+                    </div>
+                    <div class="forecast-item">
+                        <span class="forecast-day">周六</span>
+                        <i class="ph-fill ph-cloud forecast-icon"></i>
+                        <span class="forecast-desc">阴天</span>
+                        <div class="forecast-temp">
+                            <span class="temp-high">21°</span>
+                            <span class="temp-low">18°</span>
+                        </div>
+                    </div>
+                    <div class="forecast-item">
+                        <span class="forecast-day">周日</span>
+                        <i class="ph-fill ph-cloud-sun forecast-icon"></i>
+                        <span class="forecast-desc">多云</span>
+                        <div class="forecast-temp">
+                            <span class="temp-high">23°</span>
+                            <span class="temp-low">19°</span>
+                        </div>
+                    </div>
+                    <div class="forecast-item">
+                        <span class="forecast-day">周一</span>
+                        <i class="ph-fill ph-sun forecast-icon"></i>
+                        <span class="forecast-desc">晴朗</span>
+                        <div class="forecast-temp">
+                            <span class="temp-high">25°</span>
+                            <span class="temp-low">20°</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 更新日期时间
+        function updateDateTime() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            document.getElementById('dateTime').textContent = now.toLocaleDateString('zh-CN', options);
+        }
+
+        // 初始化
+        updateDateTime();
+        
+        // 每分钟更新时间
+        setInterval(updateDateTime, 60000);
+    </script>
+</body>
+</html>
