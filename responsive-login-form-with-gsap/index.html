@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title></title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css"
+            rel="stylesheet"
+        />
+        <link href="./assets/css/style.css" rel="stylesheet" />
+    </head>
+    <body>
+        <section class="login">
+            <div class="login__content">
+                <div>
+                    <h2 class="login__title">Welcome back 👋</h2>
+
+                    <form action="" method="post" class="login__form">
+                        <div class="login__group">
+                            <div class="login__box">
+                                <i class="ri-mail-fill login__icon"></i>
+                                <input
+                                    id="email"
+                                    type="email"
+                                    name=""
+                                    autocomplete=""
+                                    required
+                                    placeholder=" "
+                                    class="login__input"
+                                />
+                                <label for="email" class="login__label"
+                                    >Email</label
+                                >
+                            </div>
+                        </div>
+                        <div class="login__group">
+                            <div class="login__box">
+                                <i class="ri-lock-2-fill login__icon"></i>
+                                <input
+                                    id="password"
+                                    type="password"
+                                    name=""
+                                    autocomplete=""
+                                    required
+                                    placeholder=" "
+                                    class="login__input"
+                                />
+                                <label for="password" class="login__label"
+                                    >Password</label
+                                >
+                            </div>
+                        </div>
+
+                        <a href="#" class="login__forget">Forgot Password</a>
+                        <button type="submit" class="login__button">
+                            Log In <i class="ri-send-plane-2-fill"></i>
+                        </button>
+
+                        <p class="login__sign">
+                            Don't have an account? <a href="#">Sign Up</a>
+                        </p>
+                    </form>
+                </div>
+                <div class="login__image">
+                    <img
+                        src="./assets/images/pixellabs-fantasy-10093027_640.png"
+                        class="login__img"
+                        width="100%"
+                    />
+                </div>
+            </div>
+        </section>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+        <script src="./assets/js/main.js"></script>
+    </body>
+</html>
