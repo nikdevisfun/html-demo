@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Card design with quick action button</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+            integrity="sha512-XcIsjKMcuVe0Ucj/xgIXQnytNwBttJbNjltBV18IOnru2lDPe9KRRyvCXw6Y5H415vbBLRm8+q6fmLUU7DfO6Q=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <link href="./assets/css/style.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="card">
+            <article class="card__article">
+                <img
+                    class="card__bg"
+                    src="./assets/images/nils-leonhardt.png"
+                    alt=""
+                />
+                <div class="card__data">
+                    <img
+                        src="./assets/images/charlie-green.png"
+                        alt=""
+                        class="card__perfil"
+                    />
+                    <h3 class="card__name">Kamik Xans</h3>
+                    <p class="card__description">
+                        Creative in developing professional web interfaces with
+                        UI/UX themes
+                    </p>
+                </div>
+                <div class="card__actions">
+                    <button class="card__button" id="card-btn">
+                        <i class="ri-more-line card__more"></i>
+                        <i class="ri-close-line card__close"></i>
+                    </button>
+                    <div class="card__menu" id="card-menu">
+                        <div class="card__icons">
+                            <span class="card__icon">
+                                <i class="ri-message-3-line"></i>
+                            </span>
+                            <span class="card__icon">
+                                <i class="ri-arrow-right-down-box-line"></i>
+                            </span>
+                        </div>
+                        <div class="card__icons">
+                            <span class="card__icon">
+                                <i class="ri-heart-3-line"></i>
+                            </span>
+                            <span class="card__icon">
+                                <i class="ri-share-line"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <script src="./assets/js/main.js"></script>
+    </body>
+</html>
