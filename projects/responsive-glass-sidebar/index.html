@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Responsive glass sidebar</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+            integrity="sha512-XcIsjKMcuVe0Ucj/xgIXQnytNwBttJbNjltBV18IOnru2lDPe9KRRyvCXw6Y5H415vbBLRm8+q6fmLUU7DfO6Q=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <link href="./assets/css/style.css" rel="stylesheet" />
+    </head>
+    <body>
+        <img src="./assets/images/montain.jpg" alt="image" class="image-bg" />
+
+        <header class="header">
+            <div class="header__container">
+                <a href="#" class="header__logo">
+                    <i class="ri-shield-flash-line"></i>
+                    <span>plating</span>
+                </a>
+
+                <button class="header__toggle" id="header-toggle">
+                    <i class="ri-apps-2-line"></i>
+                </button>
+            </div>
+        </header>
+
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar__container">
+                <div class="sidebar__logo">
+                    <i class="ri-shield-flash-line"></i>
+                    <span>Plating</span>
+                </div>
+                <div class="sidebar__content">
+                    <a href="#" class="sidebar__link">
+                        <i class="ri-dashboard-horizontal-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+
+                    <div class="drop">
+                        <button class="sidebar__link drop__button">
+                            <i class="ri-folder-add-line"></i>
+                            <span>Create</span>
+                            <i class="ri-arrow-down-s-line drop__arrow"></i>
+                        </button>
+                        <ul class="drop__list">
+                            <li>
+                                <a href="#" class="drop__item">Project</a>
+                            </li>
+                            <li>
+                                <a href="#" class="drop__item">Archives</a>
+                            </li>
+                            <li>
+                                <a href="#" class="drop__item">Imports</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="drop">
+                        <button class="sidebar__link drop__button">
+                            <i class="ri-lock-2-line"></i>
+                            <span>Account</span>
+                            <i class="ri-arrow-down-s-line drop__arrow"></i>
+                        </button>
+                        <ul class="drop__list">
+                            <li>
+                                <a href="#" class="drop__item">Metrics</a>
+                            </li>
+                            <li>
+                                <a href="#" class="drop__item">Administrator</a>
+                            </li>
+                            <li>
+                                <a href="#" class="drop__item">Payments</a>
+                            </li>
+                            <li>
+                                <a href="#" class="drop__item">Passwords</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="drop">
+                        <button class="sidebar__link drop__button">
+                            <i class="ri-user-3-line"></i>
+                            <span>Profile</span>
+                            <i class="ri-arrow-down-s-line drop__arrow"></i>
+                        </button>
+                        <ul class="drop__list">
+                            <li>
+                                <a href="#" class="drop__item">Activity</a>
+                            </li>
+                            <li>
+                                <a href="#" class="drop__item">View Profile</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="#" class="sidebar__link">
+                        <i class="ri-notification-3-line"></i>
+                        <span>Notification</span>
+                    </a>
+
+                    <a href="#" class="sidebar__link">
+                        <i class="ri-shopping-cart-2-line"></i>
+                        <span>Products</span>
+                    </a>
+
+                    <a href="#" class="sidebar__link">
+                        <i class="ri-settings-4-line"></i>
+                        <span>Settings</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            
+            Glass sidebar
+        </main>
+        <script src="./assets/js/main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demos Index - Demo 预览索引</title>
+
+  <!-- CSS 模块 -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/stats.css">
+  <link rel="stylesheet" href="css/demo-card.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <h1>📦 Demos Index</h1>
+      <div class="header-actions">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="搜索 Demo..." class="search-input">
+          <span class="search-icon">🔍</span>
+        </div>
+        <button class="refresh-btn">
+          <span class="refresh-icon">↻</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-value" id="totalDemos">0</div>
+        <div class="stat-label">总 Demo 数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="lastUpdated">-</div>
+        <div class="stat-label">最后更新</div>
+      </div>
+    </div>
+
+    <div class="demos-grid" id="demosGrid">
+      <div class="loading">
+        <div class="spinner"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS 模块（使用 ES Modules） -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

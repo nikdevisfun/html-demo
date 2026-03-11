@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(node server.js)",
+      "Bash(rm demos.db && node -e \"const { scanDemos, getAllDemos } = require\\('./database'\\); scanDemos\\(\\); const demos = getAllDemos\\(\\); console.log\\('Scanned demos:'\\); demos.forEach\\(d => console.log\\('- ' + d.name + ': ' + \\(d.tech_stack || 'N/A'\\)\\)\\);\")",
+      "Bash(rm -f demos.db && node -e \"const { scanDemos, getAllDemos } = require\\('./database'\\); scanDemos\\(\\); const demos = getAllDemos\\(\\); console.log\\('Scanned demos:'\\); demos.forEach\\(d => console.log\\('- ' + d.name + ': ' + \\(d.tech_stack || 'N/A'\\)\\)\\);\")"
+    ]
+  }
+}
