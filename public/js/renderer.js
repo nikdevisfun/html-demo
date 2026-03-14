@@ -23,11 +23,17 @@ export function renderDemos(demos) {
   grid.innerHTML = demos.map(demo => {
     const techStack = demo.tech_stack ? demo.tech_stack.split(',').map(t => t.trim()) : [];
     const techTags = techStack.map(tech => `<span class="tech-tag">${escapeHtml(tech)}</span>`).join('');
+    const logoPath = `/projects/${demo.folder}/assets/images/logo.svg`;
 
     return `
     <div class="demo-card" data-demo-id="${demo.id}">
       <div class="demo-info">
-        <span class="demo-folder">${demo.folder}</span>
+        <div class="demo-header-row">
+          <span class="demo-logo-inline">
+            <img src="${logoPath}" alt="${escapeHtml(demo.name)} logo" loading="lazy" />
+          </span>
+          <span class="demo-folder">${demo.folder}</span>
+        </div>
         <div class="demo-name">${escapeHtml(demo.name)}</div>
         <div class="demo-description">${escapeHtml(demo.description || '暂无描述')}</div>
         <div class="demo-meta">
