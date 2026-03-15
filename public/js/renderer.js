@@ -24,13 +24,17 @@ export function renderDemos(demos) {
     const techStack = demo.tech_stack ? demo.tech_stack.split(',').map(t => t.trim()) : [];
     const techTags = techStack.map(tech => `<span class="tech-tag">${escapeHtml(tech)}</span>`).join('');
     const logoPath = `/projects/${demo.folder}/assets/images/logo.svg`;
+    const faviconPath = `/projects/${demo.folder}/favicon.ico`;
 
     return `
     <div class="demo-card" data-demo-id="${demo.id}">
       <div class="demo-info">
         <div class="demo-header-row">
           <span class="demo-logo-inline">
-            <img src="${logoPath}" alt="${escapeHtml(demo.name)} logo" loading="lazy" />
+            <img src="${logoPath}" alt="${escapeHtml(demo.name)} logo" loading="lazy"
+                 onerror="this.onerror=null; if(this.dataset.tried!=='1'){ this.dataset.tried='1'; this.src=this.dataset.fallback||''; } else { this.style.display='none'; this.nextElementSibling&&this.nextElementSibling.classList.add('show'); }"
+                 data-fallback="${faviconPath}" />
+            <span class="demo-logo-placeholder" aria-hidden="true">📁</span>
           </span>
           <span class="demo-folder">${demo.folder}</span>
         </div>
