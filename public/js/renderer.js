@@ -26,25 +26,22 @@ export function renderDemos(demos) {
     const logoPath = `/projects/${demo.folder}/assets/images/logo.svg`;
     const faviconPath = `/projects/${demo.folder}/favicon.ico`;
     const coverImage = demo.cover_image || logoPath;
-        /**
-         *
-        <div class="demo-cover-fallback">
-          <span class="demo-cover-fallback-icon">📦</span>
-          <span class="demo-cover-fallback-text">${escapeHtml(demo.name)}</span>
-        </div>
-
-         */
 
     return `
     <div class="demo-card" data-demo-id="${demo.id}">
       <div class="demo-card-media">
         <img
-          src="${coverImage}"
+          data-cover-src="${coverImage}"
           alt="${escapeHtml(demo.name)} cover"
           loading="lazy"
-          class="demo-cover"
-          onerror="this.onerror=null; this.classList.add('is-hidden'); this.nextElementSibling?.classList.add('show');"
+          class="demo-cover is-loading"
+          onload="this.classList.remove('is-loading');"
+          onerror="this.onerror=null; this.classList.add('is-hidden'); this.classList.remove('is-loading'); this.nextElementSibling?.classList.add('show');"
         />
+        <div class="demo-cover-fallback">
+          <span class="demo-cover-fallback-icon">📦</span>
+          <span class="demo-cover-fallback-text">${escapeHtml(demo.name)}</span>
+        </div>
 
         <div class="demo-info">
           <div class="demo-header-row">
@@ -67,6 +64,40 @@ export function renderDemos(demos) {
     </div>
   `;
   }).join('');
+
+  // 使用 IntersectionObserver 为封面图做更精细的懒加载
+  const coverImages = document.querySelectorAll('.demo-cover[data-cover-src]');
+
+  if ('IntersectionObserver' in window && coverImages.length > 0) {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const img = entry.target;
+          const src = img.dataset.coverSrc;
+          if (src && img.src !== src) {
+            img.src = src;
+          }
+          obs.unobserve(img);
+        });
+      },
+      {
+        root: null,
+        rootMargin: '200px 0px',
+        threshold: 0.01
+      }
+    );
+
+    coverImages.forEach(img => observer.observe(img));
+  } else {
+    // 不支持 IntersectionObserver 时退化为直接加载
+    coverImages.forEach(img => {
+      const src = img.dataset.coverSrc;
+      if (src && img.src !== src) {
+        img.src = src;
+      }
+    });
+  }
 
   // 绑定点击事件
   document.querySelectorAll('.demo-card').forEach(card => {
