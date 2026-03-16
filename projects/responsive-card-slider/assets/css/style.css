@@ -168,10 +168,10 @@ img {
     }
 
     .swiper .swiper-button-prev {
-        /* left: -1rem; */
+        left: -1rem;
     }
 
     .swiper .swiper-button-next {
-        /* right: -1rem; */
+        right: -1rem;
     }
 }
