@@ -14,10 +14,22 @@ db.exec(`
     folder TEXT NOT NULL UNIQUE,
     description TEXT,
     tech_stack TEXT,
+    cover_image TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
 `);
+
+// 兼容已有数据库，确保新增字段存在
+try {
+  const columns = db.prepare(`PRAGMA table_info(demos);`).all();
+  const hasCoverImage = columns.some(col => col.name === 'cover_image');
+  if (!hasCoverImage) {
+    db.exec(`ALTER TABLE demos ADD COLUMN cover_image TEXT;`);
+  }
+} catch (e) {
+  // 忽略检查/迁移错误，避免影响主流程
+}
 
 // demo 项目目录
 const PROJECTS_DIR = path.join(__dirname, 'projects');
@@ -88,20 +100,23 @@ function scanDemos() {
     .filter(name => !name.startsWith('.'));
 
   const stmt = db.prepare(`
-    INSERT INTO demos (name, folder, description, tech_stack)
-    VALUES (?, ?, ?, ?)
+    INSERT INTO demos (name, folder, description, tech_stack, cover_image)
+    VALUES (?, ?, ?, ?, ?)
     ON CONFLICT(folder) DO UPDATE SET
       name = excluded.name,
       description = excluded.description,
       tech_stack = excluded.tech_stack,
+      cover_image = excluded.cover_image,
       updated_at = CURRENT_TIMESTAMP
   `);
 
   folders.forEach(folder => {
-    const indexPath = path.join(demosDir, folder, 'index.html');
+    const folderPath = path.join(demosDir, folder);
+    const indexPath = path.join(folderPath, 'index.html');
     let description = '';
     let name = folder;
     let techStack = '';
+    let coverImage = '';
 
     if (fs.existsSync(indexPath)) {
       try {
@@ -140,7 +155,45 @@ function scanDemos() {
       }
     }
 
-    stmt.run(name, folder, description, techStack);
+    // 尝试为每个 demo 选择一个封面图片
+    try {
+      const preferredFiles = [
+        'cover.png',
+        'cover.jpg',
+        'cover.jpeg',
+        'cover.webp',
+        'screenshot.png',
+        'screenshot.jpg',
+        'screenshot.jpeg',
+        'screenshot.webp'
+      ];
+
+      for (const file of preferredFiles) {
+        const candidatePath = path.join(folderPath, file);
+        if (fs.existsSync(candidatePath) && fs.statSync(candidatePath).isFile()) {
+          coverImage = `/projects/${folder}/${file}`;
+          break;
+        }
+      }
+
+      // 如果根目录没有指定封面，尝试使用 assets/images 中的第一张图片
+      if (!coverImage) {
+        const assetsImagesDir = path.join(folderPath, 'assets', 'images');
+        if (fs.existsSync(assetsImagesDir) && fs.statSync(assetsImagesDir).isDirectory()) {
+          const imageFiles = fs
+            .readdirSync(assetsImagesDir)
+            .filter(name => name.match(/\.(png|jpe?g|webp|gif|svg)$/i));
+          if (imageFiles.length > 0) {
+            const firstImage = imageFiles[0];
+            coverImage = `/projects/${folder}/assets/images/${firstImage}`;
+          }
+        }
+      }
+    } catch (e) {
+      // 忽略封面选择错误
+    }
+
+    stmt.run(name, folder, description, techStack, coverImage || null);
   });
 
   // 清理不存在的 demo

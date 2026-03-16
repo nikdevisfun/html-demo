@@ -25,24 +25,43 @@ export function renderDemos(demos) {
     const techTags = techStack.map(tech => `<span class="tech-tag">${escapeHtml(tech)}</span>`).join('');
     const logoPath = `/projects/${demo.folder}/assets/images/logo.svg`;
     const faviconPath = `/projects/${demo.folder}/favicon.ico`;
+    const coverImage = demo.cover_image || logoPath;
+        /**
+         *
+        <div class="demo-cover-fallback">
+          <span class="demo-cover-fallback-icon">📦</span>
+          <span class="demo-cover-fallback-text">${escapeHtml(demo.name)}</span>
+        </div>
+
+         */
 
     return `
     <div class="demo-card" data-demo-id="${demo.id}">
-      <div class="demo-info">
-        <div class="demo-header-row">
-          <span class="demo-logo-inline">
-            <img src="${logoPath}" alt="${escapeHtml(demo.name)} logo" loading="lazy"
-                 onerror="this.onerror=null; if(this.dataset.tried!=='1'){ this.dataset.tried='1'; this.src=this.dataset.fallback||''; } else { this.style.display='none'; this.nextElementSibling&&this.nextElementSibling.classList.add('show'); }"
-                 data-fallback="${faviconPath}" />
-            <span class="demo-logo-placeholder" aria-hidden="true">📁</span>
-          </span>
-          <span class="demo-folder">${demo.folder}</span>
-        </div>
-        <div class="demo-name">${escapeHtml(demo.name)}</div>
-        <div class="demo-description">${escapeHtml(demo.description || '暂无描述')}</div>
-        <div class="demo-meta">
-          <div class="tech-stack">${techTags}</div>
-          <span class="demo-date">${formatDate(demo.updated_at)}</span>
+      <div class="demo-card-media">
+        <img
+          src="${coverImage}"
+          alt="${escapeHtml(demo.name)} cover"
+          loading="lazy"
+          class="demo-cover"
+          onerror="this.onerror=null; this.classList.add('is-hidden'); this.nextElementSibling?.classList.add('show');"
+        />
+
+        <div class="demo-info">
+          <div class="demo-header-row">
+            <span class="demo-logo-inline">
+              <img src="${logoPath}" alt="${escapeHtml(demo.name)} logo" loading="lazy"
+                   onerror="this.onerror=null; if(this.dataset.tried!=='1'){ this.dataset.tried='1'; this.src=this.dataset.fallback||''; } else { this.style.display='none'; this.nextElementSibling&&this.nextElementSibling.classList.add('show'); }"
+                   data-fallback="${faviconPath}" />
+              <span class="demo-logo-placeholder" aria-hidden="true">📁</span>
+            </span>
+            <span class="demo-folder">${demo.folder}</span>
+          </div>
+          <div class="demo-name">${escapeHtml(demo.name)}</div>
+          <div class="demo-description">${escapeHtml(demo.description || '暂无描述')}</div>
+          <div class="demo-meta">
+            <div class="tech-stack">${techTags}</div>
+            <span class="demo-date">${formatDate(demo.updated_at)}</span>
+          </div>
         </div>
       </div>
     </div>
