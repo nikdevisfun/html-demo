@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Dropdown Menu</title>
+        <link rel="shortcut icon" type="image/svg+xml" href="./assets/images/logo.svg" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+            integrity="sha512-XcIsjKMcuVe0Ucj/xgIXQnytNwBttJbNjltBV18IOnru2lDPe9KRRyvCXw6Y5H415vbBLRm8+q6fmLUU7DfO6Q=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <link href="./assets/css/style.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="dropdown" id="dropdown-content">
+                <button class="dropdown__button" id="dropdown-button">
+                    <i class="ri-user-3-line"></i>
+                    <span class="dropdown__name">My profile</span>
+                    <div class="dropdown__icons">
+                        <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                        <i class="ri-close-line dropdown__close"></i>
+                    </div>
+                </button>
+                <ul class="dropdown__menu">
+                    <li class="dropdown__item">
+                        <i class="ri-message-2-line dropdown__icon"></i>
+                        <span class="dropdown__name"> Messages </span>
+                    </li>
+                    <li class="dropdown__item">
+                        <i class="ri-lock-2-line dropdown__icon"></i>
+                        <span class="dropdown__name"> Account </span>
+                    </li>
+                    <li class="dropdown__item">
+                        <i class="ri-settings-3-line dropdown__icon"></i>
+                        <span class="dropdown__name"> Settings </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <script src="./assets/js/main.js"></script>
+    </body>
+</html>
